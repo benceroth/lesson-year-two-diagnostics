@@ -8,3 +8,4 @@ y2diag-report/
 spans.jsonl
 tests/_bad.yaml
 .DS_Store
+break-it/.work/
