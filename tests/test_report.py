@@ -22,6 +22,17 @@ class ReportTests(unittest.TestCase):
             for name in written:
                 self.assertEqual(read(Path(d) / name), read(committed / name), name)
 
+    def test_dependency_svg_artifacts_match_generator(self):
+        from render_dependency_graphs import main as render_graphs
+
+        report = Path(fixture.ROOT) / "demo" / "sample-report"
+        names = ("dependencies-before.svg", "dependencies-after.svg")
+        committed = {name: read(report / name) for name in names}
+        render_graphs()
+        self.assertEqual(committed, {name: read(report / name) for name in names})
+        self.assertIn("measured sample imports", committed[names[0]])
+        self.assertIn("proposed async Reporting boundary", committed[names[1]])
+
     def test_no_personal_data_in_outputs(self):
         committed = Path(fixture.ROOT) / "demo" / "sample-report"
         for f in committed.iterdir():

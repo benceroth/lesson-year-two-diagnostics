@@ -1,0 +1,7 @@
+Analyzed 292 commits. Findings:
+  - Strongest cross-module coupling: `src/billing/invoice.py` and `src/reporting/export.py` changed together in 30 commits (confidence 1.0).
+  - Top hotspot: `src/billing/invoice.py` (churn 84 x complexity 95.9 = 8055.6).
+  - Ownership bottleneck: `src/billing` is edited by 5 teams, and its owning team (billing) authors only 35% of the changes.
+  - Mutual dependency (cycle) between `src/billing` and `src/notifications`.
+  - Mutual dependency (cycle) between `src/billing` and `src/reporting`.
+Wrote dependencies.dot, dependencies.mmd, findings.json, report.html, report.md
