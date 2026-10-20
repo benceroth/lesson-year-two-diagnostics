@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>Year-two diagnostics: harborledger-demo</title><style>
+body{font:15px/1.5 system-ui,sans-serif;max-width:60rem;margin:2rem auto;padding:0 1rem;color:#222}
+table{border-collapse:collapse;margin:.5rem 0 1.2rem;width:100%}
+th,td{border:1px solid #ccc;padding:.25rem .5rem;text-align:left;font-size:.9rem}
+th{background:#f2f2f2}code,pre{background:#f6f6f6}pre{padding:.7rem;overflow:auto}
+.bar{background:#c0392b;height:.8rem;display:inline-block}
+</style></head><body>
+<h1>Year-two architecture diagnostics: harborledger-demo</h1>
+<h2>Summary</h2>
+<p>Analyzed <strong>292</strong> commits (2024-07-01 to 2026-06-28). Coupling threshold: support &gt;= 5, confidence &gt;= 0.5; commits touching more than 30 files are ignored for coupling and churn.</p>
+<p>Git history is a signal, not proof. This report is about modules and flows, not people: ownership is aggregated by team and must not be used to rate individuals or teams. See docs/limits.md.</p>
+<ul><li>Strongest cross-module coupling: <code>src/billing/invoice.py</code> and <code>src/reporting/export.py</code> changed together in 30 commits (confidence 1.0).</li><li>Top hotspot: <code>src/billing/invoice.py</code> (churn 84 x complexity 95.9 = 8055.6).</li><li>Ownership bottleneck: <code>src/billing</code> is edited by 5 teams, and its owning team (billing) authors only 35% of the changes.</li><li>Mutual dependency (cycle) between <code>src/billing</code> and <code>src/notifications</code>.</li><li>Mutual dependency (cycle) between <code>src/billing</code> and <code>src/reporting</code>.</li></ul>
+<h2>Change coupling</h2>
+<p>File pairs that change in the same commit. <em>Cross-module</em> pairs are the expensive ones: one change needs coordination between two places. Confidence = co-changes / commits of the less-changed file.</p>
+<table><tr><th>File A</th><th>File B</th><th>Co-changes</th><th>Confidence</th><th>Cross-module</th><th>Cross-team</th></tr>
+<tr><td>src/billing/invoice.py</td><td>src/reporting/export.py</td><td>30</td><td>1.0</td><td>yes</td><td>yes</td></tr>
+<tr><td>src/billing/invoice.py</td><td>src/identity/authz.py</td><td>14</td><td>1.0</td><td>yes</td><td>yes</td></tr>
+</table>
+<h3>Module pairs (commits touching both)</h3>
+<table><tr><th>Module A</th><th>Module B</th><th>Commits</th><th>Confidence</th></tr>
+<tr><td>src/billing</td><td>src/reporting</td><td>30</td><td>0.38</td></tr>
+<tr><td>src/billing</td><td>src/identity</td><td>14</td><td>0.23</td></tr>
+</table>
+<h2>Hotspots</h2>
+<p>Churn (commits touching the file) multiplied by a simple complexity proxy (branch keywords + non-blank lines / 20). Frequently changed <em>and</em> hard to change is where risk concentrates.</p>
+<table><tr><th>File</th><th>Team</th><th>Churn</th><th>LOC</th><th>Branches</th><th>Complexity</th><th>Score</th></tr>
+<tr><td>src/billing/invoice.py</td><td>billing</td><td>84</td><td>178</td><td>87</td><td>95.9</td><td>8055.6</td></tr>
+<tr><td>src/identity/accounts.py</td><td>identity</td><td>31</td><td>64</td><td>0</td><td>3.2</td><td>99.2</td></tr>
+<tr><td>src/reporting/export.py</td><td>reporting</td><td>30</td><td>63</td><td>0</td><td>3.1</td><td>93.0</td></tr>
+<tr><td>src/reporting/read_models.py</td><td>reporting</td><td>29</td><td>61</td><td>0</td><td>3.0</td><td>87.0</td></tr>
+<tr><td>src/shared/logging_utils.py</td><td>platform</td><td>29</td><td>60</td><td>0</td><td>3.0</td><td>87.0</td></tr>
+<tr><td>src/reporting/schedule.py</td><td>reporting</td><td>27</td><td>56</td><td>0</td><td>2.8</td><td>75.6</td></tr>
+<tr><td>src/shared/config.py</td><td>platform</td><td>27</td><td>56</td><td>0</td><td>2.8</td><td>75.6</td></tr>
+<tr><td>src/identity/session.py</td><td>identity</td><td>25</td><td>53</td><td>0</td><td>2.6</td><td>65.0</td></tr>
+<tr><td>src/notifications/retry.py</td><td>notifications</td><td>20</td><td>43</td><td>0</td><td>2.1</td><td>42.0</td></tr>
+<tr><td>src/notifications/channels.py</td><td>notifications</td><td>18</td><td>38</td><td>0</td><td>1.9</td><td>34.2</td></tr>
+</table>
+<h3>Hotspot score</h3><table>
+<tr><td>src/billing/invoice.py</td><td><span class='bar' style='width:100%'></span> 8055.6</td></tr>
+<tr><td>src/identity/accounts.py</td><td><span class='bar' style='width:1%'></span> 99.2</td></tr>
+<tr><td>src/reporting/export.py</td><td><span class='bar' style='width:1%'></span> 93.0</td></tr>
+<tr><td>src/reporting/read_models.py</td><td><span class='bar' style='width:1%'></span> 87.0</td></tr>
+<tr><td>src/shared/logging_utils.py</td><td><span class='bar' style='width:1%'></span> 87.0</td></tr>
+<tr><td>src/reporting/schedule.py</td><td><span class='bar' style='width:1%'></span> 75.6</td></tr>
+<tr><td>src/shared/config.py</td><td><span class='bar' style='width:1%'></span> 75.6</td></tr>
+<tr><td>src/identity/session.py</td><td><span class='bar' style='width:1%'></span> 65.0</td></tr>
+<tr><td>src/notifications/retry.py</td><td><span class='bar' style='width:1%'></span> 42.0</td></tr>
+<tr><td>src/notifications/channels.py</td><td><span class='bar' style='width:0%'></span> 34.2</td></tr>
+</table>
+<h2>Ownership by team</h2>
+<p>Counts are aggregated per team; individuals are never listed. A module edited by many teams, where the owning team authors a minority of changes, is a likely queue: changes wait for someone else&#x27;s context or review.</p>
+<table><tr><th>Module</th><th>Owner team</th><th>Commits</th><th>Teams touching</th><th>Owner share</th><th>Bottleneck</th></tr>
+<tr><td>src/billing</td><td>billing</td><td>98</td><td>5</td><td>35%</td><td>YES</td></tr>
+<tr><td>src/reporting</td><td>reporting</td><td>78</td><td>5</td><td>71%</td><td>no</td></tr>
+<tr><td>src/identity</td><td>identity</td><td>62</td><td>4</td><td>82%</td><td>no</td></tr>
+<tr><td>src/notifications</td><td>notifications</td><td>48</td><td>4</td><td>92%</td><td>no</td></tr>
+<tr><td>src/shared</td><td>platform</td><td>48</td><td>3</td><td>94%</td><td>no</td></tr>
+</table>
+<h3>Teams</h3>
+<table><tr><th>Team</th><th>Commits authored</th><th>Authors (count)</th><th>Cross-team commit share</th><th>Inbound share on its files</th></tr>
+<tr><td>billing</td><td>36</td><td>3</td><td>42%</td><td>65%</td></tr>
+<tr><td>reporting</td><td>64</td><td>3</td><td>31%</td><td>29%</td></tr>
+<tr><td>identity</td><td>72</td><td>3</td><td>35%</td><td>18%</td></tr>
+<tr><td>notifications</td><td>61</td><td>3</td><td>28%</td><td>8%</td></tr>
+<tr><td>platform</td><td>57</td><td>3</td><td>21%</td><td>6%</td></tr>
+</table>
+<h3>Cross-team change flows (author team -&gt; owning team)</h3>
+<table><tr><th>From team</th><th>To team</th><th>Commits</th></tr>
+<tr><td>identity</td><td>billing</td><td>23</td></tr>
+<tr><td>reporting</td><td>billing</td><td>18</td></tr>
+<tr><td>notifications</td><td>billing</td><td>15</td></tr>
+<tr><td>identity</td><td>reporting</td><td>9</td></tr>
+<tr><td>platform</td><td>billing</td><td>8</td></tr>
+<tr><td>billing</td><td>reporting</td><td>7</td></tr>
+<tr><td>billing</td><td>identity</td><td>6</td></tr>
+<tr><td>notifications</td><td>reporting</td><td>4</td></tr>
+<tr><td>notifications</td><td>identity</td><td>3</td></tr>
+<tr><td>platform</td><td>reporting</td><td>3</td></tr>
+</table>
+<h2>Dependency map</h2>
+<p>Module-to-module imports found by static scanning (Python and JS/TS). Dashed arrows cross team boundaries. Mutual dependencies: <code>src/billing</code> &lt;-&gt; <code>src/notifications</code>, <code>src/billing</code> &lt;-&gt; <code>src/reporting</code>.</p>
+<table><tr><th>From</th><th>To</th><th>Imports</th><th>Cross-team</th><th>Mutual</th></tr>
+<tr><td>src/billing</td><td>src/identity</td><td>1</td><td>yes</td><td>no</td></tr>
+<tr><td>src/billing</td><td>src/notifications</td><td>1</td><td>yes</td><td>yes</td></tr>
+<tr><td>src/billing</td><td>src/reporting</td><td>1</td><td>yes</td><td>yes</td></tr>
+<tr><td>src/billing</td><td>src/shared</td><td>2</td><td>yes</td><td>no</td></tr>
+<tr><td>src/identity</td><td>src/shared</td><td>1</td><td>yes</td><td>no</td></tr>
+<tr><td>src/notifications</td><td>src/billing</td><td>1</td><td>yes</td><td>yes</td></tr>
+<tr><td>src/reporting</td><td>src/billing</td><td>2</td><td>yes</td><td>yes</td></tr>
+</table>
+<pre>graph LR
+  src_billing[&quot;src/billing&quot;]
+  src_identity[&quot;src/identity&quot;]
+  src_notifications[&quot;src/notifications&quot;]
+  src_reporting[&quot;src/reporting&quot;]
+  src_shared[&quot;src/shared&quot;]
+  src_billing -.-&gt;|1| src_identity
+  src_billing -.-&gt;|1| src_notifications
+  src_billing -.-&gt;|1| src_reporting
+  src_billing -.-&gt;|2| src_shared
+  src_identity -.-&gt;|1| src_shared
+  src_notifications -.-&gt;|1| src_billing
+  src_reporting -.-&gt;|2| src_billing
+</pre>
+</body></html>

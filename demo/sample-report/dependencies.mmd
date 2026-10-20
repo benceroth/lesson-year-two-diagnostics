@@ -1,0 +1,13 @@
+graph LR
+  src_billing["src/billing"]
+  src_identity["src/identity"]
+  src_notifications["src/notifications"]
+  src_reporting["src/reporting"]
+  src_shared["src/shared"]
+  src_billing -.->|1| src_identity
+  src_billing -.->|1| src_notifications
+  src_billing -.->|1| src_reporting
+  src_billing -.->|2| src_shared
+  src_identity -.->|1| src_shared
+  src_notifications -.->|1| src_billing
+  src_reporting -.->|2| src_billing

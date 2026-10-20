@@ -1,0 +1,22 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Tests (analyzers on the synthetic history, tracing demo, sample report up to date)
+        run: python -m unittest discover -s tests -v
+      - name: Analyze the demo history (same as README)
+        run: |
+          python demo/generate_history.py > demo-path.txt
+          python y2diag.py analyze "$(cat demo-path.txt)" --config demo/config.yaml --name harborledger-demo --out out
+      - name: Tracing demo (same as README)
+        run: python tracing/otel-demo/run_demo.py --out-dir out-trace

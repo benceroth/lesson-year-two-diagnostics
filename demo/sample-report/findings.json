@@ -1,0 +1,532 @@
+{
+  "coupling": {
+    "file_pairs": [
+      {
+        "a": "src/billing/invoice.py",
+        "b": "src/reporting/export.py",
+        "confidence": 1.0,
+        "cross_module": true,
+        "cross_team": true,
+        "support": 30,
+        "teams": [
+          "billing",
+          "reporting"
+        ]
+      },
+      {
+        "a": "src/billing/invoice.py",
+        "b": "src/identity/authz.py",
+        "confidence": 1.0,
+        "cross_module": true,
+        "cross_team": true,
+        "support": 14,
+        "teams": [
+          "billing",
+          "identity"
+        ]
+      }
+    ],
+    "module_pairs": [
+      {
+        "a": "src/billing",
+        "b": "src/reporting",
+        "confidence": 0.38,
+        "support": 30
+      },
+      {
+        "a": "src/billing",
+        "b": "src/identity",
+        "confidence": 0.23,
+        "support": 14
+      }
+    ],
+    "skipped_large_commits": 2
+  },
+  "dependencies": {
+    "cycles": [
+      [
+        "src/billing",
+        "src/notifications"
+      ],
+      [
+        "src/billing",
+        "src/reporting"
+      ]
+    ],
+    "edges": [
+      {
+        "cross_team": true,
+        "dst": "src/identity",
+        "mutual": false,
+        "src": "src/billing",
+        "weight": 1
+      },
+      {
+        "cross_team": true,
+        "dst": "src/notifications",
+        "mutual": true,
+        "src": "src/billing",
+        "weight": 1
+      },
+      {
+        "cross_team": true,
+        "dst": "src/reporting",
+        "mutual": true,
+        "src": "src/billing",
+        "weight": 1
+      },
+      {
+        "cross_team": true,
+        "dst": "src/shared",
+        "mutual": false,
+        "src": "src/billing",
+        "weight": 2
+      },
+      {
+        "cross_team": true,
+        "dst": "src/shared",
+        "mutual": false,
+        "src": "src/identity",
+        "weight": 1
+      },
+      {
+        "cross_team": true,
+        "dst": "src/billing",
+        "mutual": true,
+        "src": "src/notifications",
+        "weight": 1
+      },
+      {
+        "cross_team": true,
+        "dst": "src/billing",
+        "mutual": true,
+        "src": "src/reporting",
+        "weight": 2
+      }
+    ],
+    "file_edges": [
+      {
+        "count": 1,
+        "dst": "src/identity/authz.py",
+        "src": "src/billing/invoice.py"
+      },
+      {
+        "count": 1,
+        "dst": "src/reporting/export.py",
+        "src": "src/billing/invoice.py"
+      },
+      {
+        "count": 1,
+        "dst": "src/shared/config.py",
+        "src": "src/billing/invoice.py"
+      },
+      {
+        "count": 1,
+        "dst": "src/shared/config.py",
+        "src": "src/billing/ledger.py"
+      },
+      {
+        "count": 1,
+        "dst": "src/notifications/channels.py",
+        "src": "src/billing/payments.py"
+      },
+      {
+        "count": 1,
+        "dst": "src/shared/logging_utils.py",
+        "src": "src/identity/session.py"
+      },
+      {
+        "count": 1,
+        "dst": "src/billing/invoice.py",
+        "src": "src/notifications/retry.py"
+      },
+      {
+        "count": 1,
+        "dst": "src/billing/invoice.py",
+        "src": "src/reporting/export.py"
+      },
+      {
+        "count": 1,
+        "dst": "src/billing/ledger.py",
+        "src": "src/reporting/read_models.py"
+      }
+    ],
+    "nodes": [
+      "src/billing",
+      "src/identity",
+      "src/notifications",
+      "src/reporting",
+      "src/shared"
+    ]
+  },
+  "hotspots": {
+    "files": [
+      {
+        "branches": 87,
+        "churn": 84,
+        "complexity": 95.9,
+        "loc": 178,
+        "module": "src/billing",
+        "path": "src/billing/invoice.py",
+        "score": 8055.6,
+        "team": "billing"
+      },
+      {
+        "branches": 0,
+        "churn": 31,
+        "complexity": 3.2,
+        "loc": 64,
+        "module": "src/identity",
+        "path": "src/identity/accounts.py",
+        "score": 99.2,
+        "team": "identity"
+      },
+      {
+        "branches": 0,
+        "churn": 30,
+        "complexity": 3.1,
+        "loc": 63,
+        "module": "src/reporting",
+        "path": "src/reporting/export.py",
+        "score": 93.0,
+        "team": "reporting"
+      },
+      {
+        "branches": 0,
+        "churn": 29,
+        "complexity": 3.0,
+        "loc": 61,
+        "module": "src/reporting",
+        "path": "src/reporting/read_models.py",
+        "score": 87.0,
+        "team": "reporting"
+      },
+      {
+        "branches": 0,
+        "churn": 29,
+        "complexity": 3.0,
+        "loc": 60,
+        "module": "src/shared",
+        "path": "src/shared/logging_utils.py",
+        "score": 87.0,
+        "team": "platform"
+      },
+      {
+        "branches": 0,
+        "churn": 27,
+        "complexity": 2.8,
+        "loc": 56,
+        "module": "src/reporting",
+        "path": "src/reporting/schedule.py",
+        "score": 75.6,
+        "team": "reporting"
+      },
+      {
+        "branches": 0,
+        "churn": 27,
+        "complexity": 2.8,
+        "loc": 56,
+        "module": "src/shared",
+        "path": "src/shared/config.py",
+        "score": 75.6,
+        "team": "platform"
+      },
+      {
+        "branches": 0,
+        "churn": 25,
+        "complexity": 2.6,
+        "loc": 53,
+        "module": "src/identity",
+        "path": "src/identity/session.py",
+        "score": 65.0,
+        "team": "identity"
+      },
+      {
+        "branches": 0,
+        "churn": 20,
+        "complexity": 2.1,
+        "loc": 43,
+        "module": "src/notifications",
+        "path": "src/notifications/retry.py",
+        "score": 42.0,
+        "team": "notifications"
+      },
+      {
+        "branches": 0,
+        "churn": 18,
+        "complexity": 1.9,
+        "loc": 38,
+        "module": "src/notifications",
+        "path": "src/notifications/channels.py",
+        "score": 34.2,
+        "team": "notifications"
+      },
+      {
+        "branches": 0,
+        "churn": 18,
+        "complexity": 1.9,
+        "loc": 38,
+        "module": "src/notifications",
+        "path": "src/notifications/templates.py",
+        "score": 34.2,
+        "team": "notifications"
+      },
+      {
+        "branches": 0,
+        "churn": 14,
+        "complexity": 1.5,
+        "loc": 30,
+        "module": "src/identity",
+        "path": "src/identity/authz.py",
+        "score": 21.0,
+        "team": "identity"
+      },
+      {
+        "branches": 0,
+        "churn": 10,
+        "complexity": 1.1,
+        "loc": 23,
+        "module": "src/billing",
+        "path": "src/billing/payments.py",
+        "score": 11.0,
+        "team": "billing"
+      },
+      {
+        "branches": 0,
+        "churn": 4,
+        "complexity": 0.6,
+        "loc": 11,
+        "module": "src/billing",
+        "path": "src/billing/ledger.py",
+        "score": 2.4,
+        "team": "billing"
+      }
+    ]
+  },
+  "meta": {
+    "commits": 292,
+    "first_commit": "2024-07-01",
+    "last_commit": "2026-06-28",
+    "max_files_per_commit": 30,
+    "min_confidence": 0.5,
+    "min_support": 5,
+    "name": "harborledger-demo",
+    "teams_configured": [
+      "billing",
+      "identity",
+      "notifications",
+      "platform",
+      "reporting"
+    ],
+    "top": 10
+  },
+  "ownership": {
+    "flows": [
+      {
+        "commits": 23,
+        "from": "identity",
+        "to": "billing"
+      },
+      {
+        "commits": 18,
+        "from": "reporting",
+        "to": "billing"
+      },
+      {
+        "commits": 15,
+        "from": "notifications",
+        "to": "billing"
+      },
+      {
+        "commits": 9,
+        "from": "identity",
+        "to": "reporting"
+      },
+      {
+        "commits": 8,
+        "from": "platform",
+        "to": "billing"
+      },
+      {
+        "commits": 7,
+        "from": "billing",
+        "to": "reporting"
+      },
+      {
+        "commits": 6,
+        "from": "billing",
+        "to": "identity"
+      },
+      {
+        "commits": 4,
+        "from": "notifications",
+        "to": "reporting"
+      },
+      {
+        "commits": 3,
+        "from": "notifications",
+        "to": "identity"
+      },
+      {
+        "commits": 3,
+        "from": "platform",
+        "to": "reporting"
+      },
+      {
+        "commits": 2,
+        "from": "billing",
+        "to": "platform"
+      },
+      {
+        "commits": 2,
+        "from": "reporting",
+        "to": "identity"
+      },
+      {
+        "commits": 2,
+        "from": "reporting",
+        "to": "notifications"
+      },
+      {
+        "commits": 1,
+        "from": "identity",
+        "to": "notifications"
+      },
+      {
+        "commits": 1,
+        "from": "notifications",
+        "to": "platform"
+      },
+      {
+        "commits": 1,
+        "from": "platform",
+        "to": "notifications"
+      }
+    ],
+    "modules": [
+      {
+        "authors": 15,
+        "bottleneck": true,
+        "by_team": {
+          "billing": 34,
+          "identity": 23,
+          "notifications": 15,
+          "platform": 8,
+          "reporting": 18
+        },
+        "commits": 98,
+        "module": "src/billing",
+        "owner": "billing",
+        "owner_share": 0.35,
+        "teams_touching": 5
+      },
+      {
+        "authors": 14,
+        "bottleneck": false,
+        "by_team": {
+          "billing": 7,
+          "identity": 9,
+          "notifications": 4,
+          "platform": 3,
+          "reporting": 55
+        },
+        "commits": 78,
+        "module": "src/reporting",
+        "owner": "reporting",
+        "owner_share": 0.71,
+        "teams_touching": 5
+      },
+      {
+        "authors": 10,
+        "bottleneck": false,
+        "by_team": {
+          "billing": 6,
+          "identity": 51,
+          "notifications": 3,
+          "reporting": 2
+        },
+        "commits": 62,
+        "module": "src/identity",
+        "owner": "identity",
+        "owner_share": 0.82,
+        "teams_touching": 4
+      },
+      {
+        "authors": 7,
+        "bottleneck": false,
+        "by_team": {
+          "identity": 1,
+          "notifications": 44,
+          "platform": 1,
+          "reporting": 2
+        },
+        "commits": 48,
+        "module": "src/notifications",
+        "owner": "notifications",
+        "owner_share": 0.92,
+        "teams_touching": 4
+      },
+      {
+        "authors": 6,
+        "bottleneck": false,
+        "by_team": {
+          "billing": 2,
+          "notifications": 1,
+          "platform": 45
+        },
+        "commits": 48,
+        "module": "src/shared",
+        "owner": "platform",
+        "owner_share": 0.94,
+        "teams_touching": 3
+      }
+    ],
+    "teams": [
+      {
+        "authors": 3,
+        "commits_authored": 36,
+        "commits_touching_its_files": 98,
+        "cross_team_commit_share": 0.42,
+        "inbound_share": 0.65,
+        "small_team": false,
+        "team": "billing"
+      },
+      {
+        "authors": 3,
+        "commits_authored": 64,
+        "commits_touching_its_files": 78,
+        "cross_team_commit_share": 0.31,
+        "inbound_share": 0.29,
+        "small_team": false,
+        "team": "reporting"
+      },
+      {
+        "authors": 3,
+        "commits_authored": 72,
+        "commits_touching_its_files": 62,
+        "cross_team_commit_share": 0.35,
+        "inbound_share": 0.18,
+        "small_team": false,
+        "team": "identity"
+      },
+      {
+        "authors": 3,
+        "commits_authored": 61,
+        "commits_touching_its_files": 48,
+        "cross_team_commit_share": 0.28,
+        "inbound_share": 0.08,
+        "small_team": false,
+        "team": "notifications"
+      },
+      {
+        "authors": 3,
+        "commits_authored": 57,
+        "commits_touching_its_files": 48,
+        "cross_team_commit_share": 0.21,
+        "inbound_share": 0.06,
+        "small_team": false,
+        "team": "platform"
+      }
+    ]
+  }
+}

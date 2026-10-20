@@ -1,0 +1,47 @@
+services:
+  # UNVERIFIED: written without a Docker host available. The default path (run_demo.py) needs no Docker.
+  # The services write spans to a JSONL file; the collector tails that file (filelog receiver)
+  # and prints the records. It does not convert them to real OTLP spans - see README.md in this folder.
+  identity:
+    image: python:3.12-slim
+    working_dir: /app
+    command: python services.py identity --port 8102
+    environment: &env
+      TRACE_FILE: /traces/spans.jsonl
+      BIND_ALL: "1"
+      IDENTITY_URL: http://identity:8102
+      REPORTING_URL: http://reporting:8103
+      NOTIFICATIONS_URL: http://notifications:8104
+      BILLING_URL: http://billing:8101
+    volumes: &vols
+      - ./:/app:ro
+      - traces:/traces
+  reporting:
+    image: python:3.12-slim
+    working_dir: /app
+    command: python services.py reporting --port 8103
+    environment: *env
+    volumes: *vols
+  notifications:
+    image: python:3.12-slim
+    working_dir: /app
+    command: python services.py notifications --port 8104
+    environment: *env
+    volumes: *vols
+  billing:
+    image: python:3.12-slim
+    working_dir: /app
+    command: python services.py billing --port 8101
+    environment: *env
+    volumes: *vols
+    ports: ["8101:8101"]
+    depends_on: [identity, reporting, notifications]
+  collector:
+    image: otel/opentelemetry-collector-contrib:0.104.0
+    command: ["--config=/etc/otel/collector.yaml"]
+    volumes:
+      - ./otel-collector.yaml:/etc/otel/collector.yaml:ro
+      - traces:/traces:ro
+
+volumes:
+  traces: {}

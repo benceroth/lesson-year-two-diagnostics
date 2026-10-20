@@ -1,0 +1,15 @@
+# UNVERIFIED (no Docker available when authored). Tails the demo's JSONL span file.
+receivers:
+  filelog:
+    include: [/traces/spans.jsonl]
+    start_at: beginning
+    operators:
+      - type: json_parser
+exporters:
+  debug:
+    verbosity: detailed
+service:
+  pipelines:
+    logs:
+      receivers: [filelog]
+      exporters: [debug]

@@ -1,0 +1,7 @@
+# Owners come from .github/CODEOWNERS in the synthetic repo; this only maps authors to teams.
+authors:
+  "billing-*@example.test": billing
+  "identity-*@example.test": identity
+  "reporting-*@example.test": reporting
+  "notifications-*@example.test": notifications
+  "platform-*@example.test": platform

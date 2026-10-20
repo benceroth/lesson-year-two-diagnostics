@@ -1,0 +1,16 @@
+digraph dependencies {
+  rankdir=LR;
+  node [shape=box];
+  "src/billing";
+  "src/identity";
+  "src/notifications";
+  "src/reporting";
+  "src/shared";
+  "src/billing" -> "src/identity" [label="1", style=dashed];
+  "src/billing" -> "src/notifications" [label="1", style=dashed, color="#c0392b"];
+  "src/billing" -> "src/reporting" [label="1", style=dashed, color="#c0392b"];
+  "src/billing" -> "src/shared" [label="2", style=dashed];
+  "src/identity" -> "src/shared" [label="1", style=dashed];
+  "src/notifications" -> "src/billing" [label="1", style=dashed, color="#c0392b"];
+  "src/reporting" -> "src/billing" [label="2", style=dashed, color="#c0392b"];
+}

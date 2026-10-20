@@ -1,0 +1,7 @@
+date,phase,source,active_accounts,engineers,deployments_per_week,lead_time_days,mttr_minutes,p95_latency_ms,error_rate_pct,slo_burn_rate,notes
+,end of year one,illustrative (post),40000,12,8,,22,280,,,HarborLedger fictional figures from the post
+,mid year two (day 0 baseline),illustrative (post),240000,36,3,,96,1400,,,HarborLedger fictional figures from the post
+,after day 90,illustrative (post),240000,36,9,,28,330,,,HarborLedger fictional figures from the post
+,your day 1 baseline,measured,,,,,,,,,replace with your numbers; note the data source
+,your day 45,measured,,,,,,,,,
+,your day 90,measured,,,,,,,,,

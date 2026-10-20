@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+*.egg-info/
+build/
+dist/
+.venv/
+y2diag-report/
+spans.jsonl
+tests/_bad.yaml
+.DS_Store

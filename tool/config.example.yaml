@@ -1,0 +1,39 @@
+# Copy and adjust. Format: a small YAML subset (maps, lists, scalars) or JSON (.json).
+# Paths are repo-relative with forward slashes.
+
+# Team -> path prefixes. These win over CODEOWNERS; CODEOWNERS fills the gaps.
+teams:
+  billing:
+    - src/billing/
+  identity:
+    - src/identity/
+  reporting:
+    - src/reporting/
+
+# Map author e-mail globs to teams. Only the team is ever reported - never the person.
+authors:
+  "billing-*@example.com": billing
+  "identity-*@example.com": identity
+  "reporting-*@example.com": reporting
+
+# Time window and path filters keep large repositories fast.
+since: 2024-01-01
+# until: 2026-01-01
+# max_commits: 20000
+# paths:
+#   - src/
+
+ignore:
+  - "*.lock"
+  - "package-lock.json"
+  - "vendor/"
+  - "*.min.js"
+
+max_files_per_commit: 30   # larger commits (mass renames/reformats) are skipped for coupling and churn
+min_support: 5             # minimum co-changes to report a coupled pair
+min_confidence: 0.5
+module_depth: 2            # "src/billing" is a module when depth is 2
+top: 10
+bottleneck_min_teams: 3
+bottleneck_owner_share: 0.5
+small_team_authors: 3
